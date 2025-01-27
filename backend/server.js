@@ -18,12 +18,14 @@ app.use(express.json());
 
 // Check & verify token.  If so, add user payload to req.user
 app.use(require('./middleware/checkToken'));
+app.use('/api/movies', require('./routes/movies'))
 
 // API Routes
 app.use('/api/auth', require('./routes/auth'));
 
 // All routers below will have all routes protected
 app.use(require('./middleware/ensureLoggedIn'));
+
 
 app.use('/api/posts', require('./routes/posts'));
 
@@ -36,3 +38,5 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`The express app is listening on ${port}`);
 });
+
+
