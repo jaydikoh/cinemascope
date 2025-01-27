@@ -16,7 +16,7 @@ const BASE_URL = 'https://api.themoviedb.org/3/movie';
  * @returns {Promise<Object>} JSON response containing movies now playing.
  */
 export async function getNowPlaying() {
-  const url = `${BASE_URL}/now_playing?api_key=0d0cdbb6be087035c1a1f4b384931726`;
+  const url = `${BASE_URL}/now_playing?api_key`;
 
   try {
     const response = await fetch(url);
