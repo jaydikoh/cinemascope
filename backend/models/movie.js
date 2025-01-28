@@ -29,6 +29,9 @@ const movieSchema = new Schema(
       type: Date,
       required: true,
     },
+    image: {
+      type: String
+    },
     // genres: {
     //   type: [String], // Array of genre names
     //   required: true,
@@ -54,3 +57,5 @@ const movieSchema = new Schema(
 const Movie = mongoose.model('Movie', movieSchema);
 
 module.exports = Movie;
+
+

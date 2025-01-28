@@ -1,28 +1,25 @@
 const BASE_URL = 'https://api.themoviedb.org/3/movie';
-// const API_KEY = process.env.REACT_APP_API_KEY; // Use the React-specific prefix
-// const BEARER_TOKEN = process.env.BEARER_TOKEN;
+const API_KEY = import.meta.env.VITE_API_KEY; 
+const BEARER_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
-// const options = {
-//   method: 'GET',
-//   headers: {
-//     accept: 'application/json',
-// Authorization: `Bearer ${BEARER_TOKEN}`  
-// },
-// };
-// console.log('API Key:', API_KEY)
+const options = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+Authorization: `Bearer ${BEARER_TOKEN}`  
+},
+};
+console.log('API Key:', API_KEY)
 
-/**
- * Fetch movies now playing in cinemas.
- * @returns {Promise<Object>} JSON response containing movies now playing.
- */
+
 export async function getNowPlaying() {
-  const url = `${BASE_URL}/now_playing?api_key`;
+  const url = `${BASE_URL}/now_playing?api_key=${API_KEY}`;
 
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error('Failed to fetch movies');
     const data =  await response.json();
-    // console.log(data)
+    console.log(data)
     return data;
   } catch (err) {
     console.error('Error fetching now playing movies:', err.message);
@@ -30,13 +27,8 @@ export async function getNowPlaying() {
   }
 }
 
-/**
- * Fetch details of a specific movie by its ID.
- * @param {number} movieId - The ID of the movie to fetch.
- * @returns {Promise<Object>} JSON response containing the movie details.
- */
 export async function getMovieDetails(movieId) {
-  const url = `${BASE_URL}/${movieId}?language=en-US`;
+  const url = `${BASE_URL}/${movieId}?`;
 
   try {
     const response = await fetch(url, options);

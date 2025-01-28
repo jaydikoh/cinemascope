@@ -1,4 +1,7 @@
-const Movie = require('../models/movie')
+const Movie = require('../models/movie');
+const fetch = require('node-fetch');
+const API_KEY = process.env.VITE_API_KEY; // Use the React-specific prefix
+const BASE_URL = 'https://api.themoviedb.org/3/movie';
 
 // const express = require('express')
 // const router = express.Router()
@@ -9,8 +12,34 @@ module.exports = {
     index,
     delete1,
     update,
-    show
+    show,
+    fetchAndSave
 }
+
+async function fetchAndSave(req, res) {
+  try {
+    const response = await fetch(`${BASE_URL}/now_playing?api_key=${API_KEY}`);
+    const data = await response.json();
+
+    const movies = data.results.map((movie) => ({
+      id: movie.id,
+      title: movie.title,
+      overview: movie.overview,
+      release_date: movie.release_date,
+      genres: movie.genre_ids, // Assuming genre IDs
+      image: `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+    }));
+    // Save movies to database
+    for (const movie of movies) {
+      await Movie.findOneAndUpdate({ id: movie.id }, movie, { upsert: true, new: true });
+    }
+
+    res.status(200).json({ message: 'Movies successfully fetched and saved to database!' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 // GET /api/movies (INDEX action)
 async function index(req, res) {
     try {

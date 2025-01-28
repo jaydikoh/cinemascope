@@ -13,29 +13,53 @@ export default function NavBar({ user, setUser }) {
 
   return (
     <nav className="NavBar">
-      <NavLink to="/">Home</NavLink>
-      &nbsp; | &nbsp;
-      {user ? (
-        <>
-          <NavLink to="/posts" end>
-            Post List
-          </NavLink>
-          &nbsp; | &nbsp;
-          <NavLink to="/posts/new">New Post</NavLink>
-          &nbsp; | &nbsp;
-          <Link to="" onClick={handleLogOut}>
-            Log Out
-          </Link>
-          &nbsp; | &nbsp;
-          <span>Welcome, {user.name}</span>
-        </>
-      ) : (
-        <>
-          <NavLink to="/login">Log In</NavLink>
-          &nbsp; | &nbsp;
-          <NavLink to="/signup">Sign Up</NavLink>
-        </>
-      )}
+      <div className="nav-container">
+        {/* Logo */}
+        <NavLink to="/" className="logo">
+          CinemaScope
+        </NavLink>
+
+        {/* Navigation Links */}
+        <ul className="nav-links">
+          <li>
+            <NavLink to="/movies">Movies</NavLink>
+          </li>
+          <li>
+            <NavLink to="/showtimes">Showtimes</NavLink>
+          </li>
+          <li>
+            <NavLink to="/theaters">Theaters</NavLink>
+          </li>
+          <li>
+          <NavLink to="/now-playing">Now Playing</NavLink> {/* New Link */}
+          </li>
+          <li>
+            <NavLink to="/support">Support</NavLink>
+          </li>
+        </ul>
+
+        {/* Auth Links */}
+        <div className="auth-links">
+          {user ? (
+            <>
+              <span>Welcome, {user.name}</span>
+              <button className="logout-btn" onClick={handleLogOut}>
+                Log Out
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/login" className="auth-link">
+                Log In
+              </NavLink>
+              <NavLink to="/signup" className="auth-link">
+                Register
+              </NavLink>
+            </>
+          )}
+        </div>
+      </div>
     </nav>
   );
 }
+

@@ -3,6 +3,7 @@ const router = express.Router();
 const moviesCtrl = require('../controllers/movies');
 
 // All paths start with '/api/posts'
+router.get('/fetch-and-save', moviesCtrl.fetchAndSave);
 
 // POST /api/posts
 router.post('/', moviesCtrl.create);
@@ -18,3 +19,4 @@ router.get('/movieId', moviesCtrl.update)
 
 
 module.exports = router;
+

@@ -5,6 +5,7 @@ import './App.css';
 import HomePage from '../HomePage/HomePage';
 import PostListPage from '../PostListPage/PostListPage';
 import NewPostPage from '../NewPostPage/NewPostPage';
+import NowPlayingPage from '../NowPlayingPage/NowPlayingPage'; // Import the new page
 import SignUpPage from '../SignUpPage/SignUpPage';
 import LogInPage from '../LogInPage/LogInPage';
 import NavBar from '../../components/NavBar/NavBar';
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/posts" element={<PostListPage />} />
             <Route path="/posts/new" element={<NewPostPage />} />
+            <Route path="/now-playing" element={<NowPlayingPage />} />
           </Routes>
         ) : (
           <Routes>
@@ -34,3 +36,4 @@ export default function App() {
     </main>
   );
 }
+
