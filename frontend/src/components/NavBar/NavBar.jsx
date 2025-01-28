@@ -14,15 +14,17 @@ export default function NavBar({ user, setUser }) {
   return (
     <nav className="NavBar">
       <div className="nav-container">
-        {/* Logo */}
         <NavLink to="/" className="logo">
           CinemaScope
         </NavLink>
 
-        {/* Navigation Links */}
+        {user && (
         <ul className="nav-links">
           <li>
-            <NavLink to="/movies">Movies</NavLink>
+          <NavLink to="/now-playing">Now Playing</NavLink> {/* New Link */}
+          </li>
+          <li>
+            <NavLink to="/coming-soon">Coming Soon</NavLink>
           </li>
           <li>
             <NavLink to="/showtimes">Showtimes</NavLink>
@@ -30,18 +32,13 @@ export default function NavBar({ user, setUser }) {
           <li>
             <NavLink to="/theaters">Theaters</NavLink>
           </li>
-          <li>
-          <NavLink to="/now-playing">Now Playing</NavLink> {/* New Link */}
-          </li>
-          <li>
-            <NavLink to="/support">Support</NavLink>
-          </li>
         </ul>
+        )}
 
-        {/* Auth Links */}
         <div className="auth-links">
           {user ? (
             <>
+            
               <span>Welcome, {user.name}</span>
               <button className="logout-btn" onClick={handleLogOut}>
                 Log Out
