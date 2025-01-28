@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router'; // Fix typo: Use react-router-dom
+import { Link } from 'react-router'; 
 import '../NowPlayingPage/NowPlayingPage.css';
+import * as movieService from '../../services/movieService'
 
 export default function NowPlayingPage() {
   const [movies, setMovies] = useState([]);
@@ -11,10 +12,10 @@ export default function NowPlayingPage() {
       const timeISO = currentTime.toISOString();
 
       try {
-        const response = await fetch('/api/movies');
-        if (!response.ok) throw new Error('Failed to fetch movies');
-        const data = await response.json();
-        setMovies(data.filter((movie) => movie.release_date <= timeISO));
+        const movies = await movieService.getNowPlaying();
+        // if (!movies.ok) throw new Error('Failed to fetch movies');
+        // const filteredMovies = movies.filter((movie) => new Date(movie.release_date) <= currentTime
+                setMovies(movies.filter((movie) => movie.release_date <= timeISO));
       } catch (err) {
         console.error('Error fetching movies:', err.message);
       }
