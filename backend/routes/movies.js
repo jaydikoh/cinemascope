@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const moviesCtrl = require('../controllers/movies');
+const ensureLoggedIn = require('../middleware/ensureLoggedIn'); // Ensure user is logged in
+
 
 // All paths start with '/api/posts'
 router.get('/fetch-and-save', moviesCtrl.fetchAndSave);
@@ -15,6 +17,9 @@ router.get('/movieId', moviesCtrl.show)
 router.delete('/movieId', moviesCtrl.delete1)
 
 router.get('/movieId', moviesCtrl.update)
+
+router.patch('/:movieId/favorite', ensureLoggedIn, moviesCtrl.addFavorite);
+
 
 
 

@@ -32,10 +32,10 @@ const movieSchema = new Schema(
     image: {
       type: String
     },
-    // genres: {
-    //   type: [String], // Array of genre names
-    //   required: true,
-    // },
+    genres: {
+      type: [String], // Array of genre names
+      required: true,
+    },
     user: {
       type: Schema.Types.ObjectId,
     //   required: true,

@@ -27,7 +27,7 @@ async function fetchAndSave(req, res) {
       overview: movie.overview,
       release_date: movie.release_date,
       genres: movie.genre_ids, // Assuming genre IDs
-      image: `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+      image: `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
     }));
     // Save movies to database
     for (const movie of movies) {
@@ -115,3 +115,50 @@ async function show(req, res) {
     }
   };
 
+  async function addFavorite(req, res) {
+    try {
+      const { movieId } = req.params;
+      const userId = req.user._id; // Assuming req.user contains the logged-in user's ID (via middleware)
+  
+      // Fetch movie details from TMDB API if it doesn't exist in the database
+      let movie = await Movie.findOne({ id: movieId });
+  
+      if (!movie) {
+        // Fetch movie details from the external API
+        const response = await fetch(`${BASE_URL}/${movieId}?api_key=${API_KEY}`);
+        const data = await response.json();
+  
+        // Create a new movie in the database
+        movie = await Movie.create({
+          id: data.id,
+          title: data.title,
+          overview: data.overview,
+          release_date: data.release_date,
+          image: `https://image.tmdb.org/t/p/w1280${data.poster_path}`,
+          genres: data.genre_ids,
+          favorites: [], // Initialize empty favorites array
+        });
+      }
+  
+      // Check if the user is already in the favorites array
+      const isFavorited = movie.favorites.includes(userId);
+  
+      if (isFavorited) {
+        // Remove the user from the favorites array
+        movie.favorites = movie.favorites.filter((id) => id.toString() !== userId.toString());
+      } else {
+        // Add the user to the favorites array
+        movie.favorites.push(userId);
+      }
+  
+      // Save the updated movie document
+      await movie.save();
+  
+      res.status(200).json({
+        message: isFavorited ? 'Removed from watchlist' : 'Added to watchlist',
+        movie,
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }

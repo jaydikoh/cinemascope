@@ -5,6 +5,7 @@ import './App.css';
 import HomePage from '../HomePage/HomePage';
 import PostListPage from '../PostListPage/PostListPage';
 import NewPostPage from '../NewPostPage/NewPostPage';
+import MovieDetailsPage from '../MovieDetailsPage/MovieDetailsPage'; // Import the new page
 import NowPlayingPage from '../NowPlayingPage/NowPlayingPage'; // Import the new page
 import SignUpPage from '../SignUpPage/SignUpPage';
 import LogInPage from '../LogInPage/LogInPage';
@@ -24,6 +25,7 @@ export default function App() {
             <Route path="/posts" element={<PostListPage />} />
             <Route path="/posts/new" element={<NewPostPage />} />
             <Route path="/now-playing" element={<NowPlayingPage />} />
+            <Route path="/movies/:movieId" element={<MovieDetailsPage />} /> 
           </Routes>
         ) : (
           <Routes>
