@@ -10,7 +10,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Hero Section */}
+      
       <header className="hero-section">
         <div className="hero-content">
           <h1>Discover the Latest in Cinema</h1>
@@ -23,7 +23,7 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Features Section */}
+      
       <section className="features-section">
         <div className="feature">
           <img src="path-to-image" alt="Now Showing" />
@@ -51,7 +51,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      
       <section className="testimonials-section">
         <h2>Our Happy Clients</h2>
         <div className="testimonial">
@@ -69,7 +69,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Contact Section */}
+      
       <section className="contact-section">
         <h2>Connect With Us</h2>
         <form>

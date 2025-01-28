@@ -13,7 +13,8 @@ module.exports = {
     delete1,
     update,
     show,
-    fetchAndSave
+    fetchAndSave,
+    addFavorite
 }
 
 async function fetchAndSave(req, res) {
@@ -53,7 +54,9 @@ async function index(req, res) {
 // GET /api/movies/:movietId (SHOW action)
 async function show(req, res) {
     try {
-      const foundMovie = await Movie.findById(req.params.movieId);
+      const {movieId} = req.params;
+
+      const foundMovie = await Movie.findOne({ id: movieId})
       if (!foundMovie) {
         res.status(404);
         throw new Error('Movie not found');
@@ -121,27 +124,10 @@ async function show(req, res) {
       const userId = req.user._id; // Assuming req.user contains the logged-in user's ID (via middleware)
   
       // Fetch movie details from TMDB API if it doesn't exist in the database
-      let movie = await Movie.findOne({ id: movieId });
-  
-      if (!movie) {
-        // Fetch movie details from the external API
-        const response = await fetch(`${BASE_URL}/${movieId}?api_key=${API_KEY}`);
-        const data = await response.json();
-  
-        // Create a new movie in the database
-        movie = await Movie.create({
-          id: data.id,
-          title: data.title,
-          overview: data.overview,
-          release_date: data.release_date,
-          image: `https://image.tmdb.org/t/p/w1280${data.poster_path}`,
-          genres: data.genre_ids,
-          favorites: [], // Initialize empty favorites array
-        });
-      }
+      let movie = await Movie.findOne({ id: (movieId) });
   
       // Check if the user is already in the favorites array
-      const isFavorited = movie.favorites.includes(userId);
+      const isFavorited = movie.favorites.some((id) => id.toString() === userId.toString());
   
       if (isFavorited) {
         // Remove the user from the favorites array

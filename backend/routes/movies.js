@@ -12,13 +12,13 @@ router.post('/', moviesCtrl.create);
 // GET /api/posts
 router.get('/', moviesCtrl.index);
 
-router.get('/movieId', moviesCtrl.show)
+router.get('/:movieId', moviesCtrl.show)
 
-router.delete('/movieId', moviesCtrl.delete1)
+router.delete('/:movieId', moviesCtrl.delete1)
 
-router.get('/movieId', moviesCtrl.update)
+router.get('/:movieId', moviesCtrl.update)
 
-router.patch('/:movieId/favorite', ensureLoggedIn, moviesCtrl.addFavorite);
+router.post('/:movieId/favorite', ensureLoggedIn, moviesCtrl.addFavorite);
 
 
 

@@ -1,4 +1,7 @@
-const BASE_URL = 'https://api.themoviedb.org/3/movie';
+import sendRequest from "./sendRequest";
+
+const BASE_URL = '/api/movies';
+
 const API_KEY = import.meta.env.VITE_API_KEY; 
 const BEARER_TOKEN = import.meta.env.VITE_BEARER_TOKEN;
 
@@ -28,16 +31,7 @@ export async function getNowPlaying() {
 }
 
 export async function getMovieDetails(movieId) {
-  const url = `${BASE_URL}/${movieId}?`;
-
-  try {
-    const response = await fetch(url, options);
-    console.log(response)
-    if (!response.ok) throw new Error('Failed to fetch movie details');
-    return await response.json();
-  } catch (err) {
-    console.error(`Error fetching details for movie ${movieId}:`, err.message);
-    throw err;
-  }
+  
+  return sendRequest(`${BASE_URL}/${movieId}`)
 }
 

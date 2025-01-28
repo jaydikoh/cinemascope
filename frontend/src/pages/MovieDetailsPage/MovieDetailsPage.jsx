@@ -1,30 +1,25 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import './MovieDetailsPage.css';
+import * as movieService from '../../services/movieService'
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams(); // Extract the movieId from the URL
   const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchMovieDetails() {
       try {
-        const response = await fetch(`/api/movies/${movieId}`);
-        if (!response.ok) throw new Error('Failed to fetch movie details');
-        const data = await response.json();
-        setMovie(data);
+        const movie = await movieService.getMovieDetails(movieId)
+        setMovie(movie);
       } catch (err) {
         console.error('Error fetching movie details:', err.message);
-      } finally {
-        setLoading(false);
-      }
+      } 
     }
 
     fetchMovieDetails();
   }, [movieId]);
 
-  if (loading) return <p className="loading">Loading movie details...</p>;
 
   if (!movie) return <p className="error">Movie not found.</p>;
 
@@ -54,3 +49,5 @@ export default function MovieDetailsPage() {
     </div>
   );
 }
+
+
