@@ -24,7 +24,7 @@ export default function NavBar({ user, setUser }) {
           <NavLink to="/now-playing">Now Playing</NavLink> {/* New Link */}
           </li>
           <li>
-            <NavLink to="/coming-soon">Coming Soon</NavLink>
+          <NavLink to="/watchlist">Watchlist</NavLink>
           </li>
           <li>
             <NavLink to="/showtimes">Showtimes</NavLink>

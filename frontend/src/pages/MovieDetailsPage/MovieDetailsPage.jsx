@@ -3,11 +3,13 @@ import { useParams } from 'react-router';
 import './MovieDetailsPage.css';
 import * as movieService from '../../services/movieService'
 
-export default function MovieDetailsPage() {
+export default function MovieDetailsPage({ user }) {
   const { movieId } = useParams(); // Extract the movieId from the URL
   const [movie, setMovie] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [newComment, setNewComment] = useState(''); // For storing the new comment text
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editText, setEditText] = useState("");
 
 
   useEffect(() => {
@@ -43,6 +45,38 @@ export default function MovieDetailsPage() {
     }
   }
 
+  async function handleDeleteComment(commentId) {
+    try {
+      await movieService.deleteComment(movieId, commentId);
+      setMovie((prevMovie) => ({
+        ...prevMovie,
+        comments: prevMovie.comments.filter((c) => c._id !== commentId),
+      }));
+    } catch (err) {
+      console.error("Error deleting comment:", err.message);
+    }
+  }
+
+  function enableEditMode(comment) {
+    setEditingCommentId(comment._id);
+    setEditText(comment.text);
+  }
+
+  async function handleUpdateComment(commentId) {
+    try {
+      await movieService.updateComment(movieId, commentId, { text: editText });
+      setMovie((prevMovie) => ({
+        ...prevMovie,
+        comments: prevMovie.comments.map((c) =>
+          c._id === commentId ? { ...c, text: editText } : c
+        ),
+      }));
+      setEditingCommentId(null);
+    } catch (err) {
+      console.error("Error updating comment:", err.message);
+    }
+  }
+
   if (!movie) return <p className="error">Movie not found.</p>;
 
   return (
@@ -75,9 +109,46 @@ export default function MovieDetailsPage() {
         {movie.comments.length > 0 ? (
           <ul className="comments-list">
             {movie.comments.map((comment, index) => (
-              <li key={index} className="comment">
-                <p><strong>{comment.author?.name }</strong>: {comment.text}</p>
-              </li>
+              <li key={comment._id} className="comment">
+              {editingCommentId === comment._id ? (
+                <>
+                  <input
+                    type="text"
+                    value={editText}
+                    onChange={(e) => setEditText(e.target.value)}
+                  />
+                  <button className="update-comment-btn" onClick={() => handleUpdateComment(comment._id)}>
+                    ✅
+                  </button>
+                  <button className="cancel-edit-btn" onClick={() => setEditingCommentId(null)}>
+                    ❌
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p>
+                    <strong>{comment.author?.name || "Anonymous"}</strong>: {comment.text}
+                  </p>
+                  {/* Show delete & edit buttons only for the author */}
+                  {/* {user && comment.author?._id === user._id && ( */}
+                    <>
+                      <button
+                        className="delete-comment-btn"
+                        onClick={() => handleDeleteComment(comment._id)}
+                      >
+                        🗑
+                      </button>
+                      <button
+                        className="edit-comment-btn"
+                        onClick={() => enableEditMode(comment)}
+                      >
+                        ✏️
+                      </button>
+                    </>
+                  {/* )} */}
+                </>
+              )}
+            </li>
             ))}
           </ul>
         ) : (

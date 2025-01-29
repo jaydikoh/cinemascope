@@ -18,3 +18,14 @@ export async function createComment(movieId, commentData) {
   return sendRequest(`${BASE_URL}/${movieId}/comments`, 'POST', commentData); 
 }
 
+export async function deleteComment(movieId, commentId) {
+  return sendRequest(`${BASE_URL}/${movieId}/comments/${commentId}`, "DELETE");
+}
+
+export async function updateComment(movieId, commentId, updatedData) {
+  return sendRequest(`${BASE_URL}/${movieId}/comments/${commentId}`, "PUT", updatedData);
+}
+
+export async function getFavorites() {
+  return sendRequest(`${BASE_URL}/favorites`);
+}

@@ -17,7 +17,10 @@ module.exports = {
     show,
     fetchAndSave,
     addFavorite,
-    createComment
+    createComment,
+    deleteComment,
+    updateComment,
+    getFavorites
 }
 
 async function fetchAndSave(req, res) {
@@ -58,13 +61,26 @@ async function index(req, res) {
       res.status(500).json({ error: error.message });
     }
   };
-
+  
+  async function getFavorites(req, res) {
+    try {
+      const userId = req.user._id; // Get the logged-in user's ID
+      const favoriteMovies = await Movie.find({ favorites: userId }); // Find movies where the user has favorited
+      res.status(200).json(favoriteMovies);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+  
 // GET /api/movies/:movietId (SHOW action)
 async function show(req, res) {
     try {
       const {movieId} = req.params;
 
-      const foundMovie = await Movie.findOne({ id: movieId})
+      const foundMovie = await Movie.findOne({ id: movieId}).populate({
+        path: 'comments',
+        populate: { path: 'author', select: 'name' }, // Populate author's name
+      });
       if (!foundMovie) {
         res.status(404);
         throw new Error('Movie not found');
@@ -130,18 +146,18 @@ async function show(req, res) {
     try {
       const { movieId } = req.params;
       const userId = req.user._id; 
-  
+      
       let movie = await Movie.findOne({ id: movieId });
       console.log(movieId)
       const isFavorited = movie.favorites.some((id) => id.toString() === userId.toString());
-  
+      
       if (isFavorited) {
         movie.favorites = movie.favorites.filter((id) => id.toString() !== userId.toString());
       } else {
         movie.favorites.push(userId);
       }
-        await movie.save();
-  
+      await movie.save();
+      
       res.status(200).json({
         message: isFavorited ? 'Removed from watchlist' : 'Added to watchlist',
         movie,
@@ -150,10 +166,11 @@ async function show(req, res) {
       res.status(500).json({ error: error.message });
     }
   }
+  
 
   // /api/comments (create comment)
-async function createComment(req, res) {
-  console.log(req.params)
+  async function createComment(req, res) {
+    console.log(req.params)
   try {
     const movie = await Movie.findOne({ id: req.params.movieId });
     console.log(movie)
@@ -163,10 +180,55 @@ async function createComment(req, res) {
     movie.comments.push(comment._id)
     await movie.save()
     await movie.populate('comments');
+    await comment.populate('author', 'name'); // Populate only the name field
     res.status(201).json(movie);
     
   } catch (err) {
     console.error(err)
+    res.status(500).json({ err: err.message });
+  }
+}
+
+async function deleteComment(req, res) {
+  try {
+    const { commentId, movieId } = req.params;
+    const userId = req.user._id; // Logged-in user's ID
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+    // Ensure only the author can delete their comment
+    if (comment.author.toString() !== userId.toString()) {
+      return res.status(403).json({ message: "Unauthorized to delete this comment" });
+    }
+    await Comment.findByIdAndDelete(commentId);
+    await Movie.findOneAndUpdate(
+      { id: movieId },
+      { $pull: { comments: commentId } } // Removes the comment ID from the comments array
+    );
+    res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting comment:", err);
+    res.status(500).json({ err: err.message });
+  }
+}
+
+async function updateComment(req, res) {
+  try {
+    const { commentId } = req.params;
+    const userId = req.user._id; // Logged-in user's ID
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+    if (comment.author.toString() !== userId.toString()) {
+      return res.status(403).json({ message: "Unauthorized to update this comment" });
+    }
+    comment.text = req.body.text;
+    await comment.save();
+    res.status(200).json({ message: "Comment updated successfully", comment });
+  } catch (err) {
+    console.error("Error updating comment:", err);
     res.status(500).json({ err: err.message });
   }
 }

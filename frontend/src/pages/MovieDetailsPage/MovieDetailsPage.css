@@ -1,3 +1,4 @@
+/* Movie Details Container */
 .movie-details {
   max-width: 900px;
   margin: 40px auto;
@@ -8,6 +9,7 @@
   font-family: 'Arial', sans-serif;
 }
 
+/* Movie Banner */
 .movie-banner {
   display: flex;
   justify-content: center;
@@ -21,6 +23,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Movie Content */
 .movie-content {
   text-align: left;
 }
@@ -45,6 +48,7 @@
   margin-bottom: 20px;
 }
 
+/* Comments Section */
 h2 {
   margin-top: 20px;
   font-size: 1.8rem;
@@ -56,6 +60,7 @@ h2 {
   padding: 0;
 }
 
+/* Comment Box */
 .comment {
   background: #f9f9f9;
   padding: 10px;
@@ -63,13 +68,27 @@ h2 {
   margin-bottom: 10px;
   font-size: 1rem;
   border-left: 4px solid #007bff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px; /* Adds space between text and buttons */
 }
 
+/* Comment Text */
 .comment p {
   margin: 0;
   color: #555;
+  flex-grow: 1; /* Allows text to take available space */
 }
 
+/* ✅ Comment Actions (Trash & Edit Button) */
+.comment-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Adjust spacing between buttons */
+}
+
+/* Loading and Error Styles */
 .loading,
 .error {
   text-align: center;
@@ -77,6 +96,7 @@ h2 {
   color: #888;
 }
 
+/* Add Comment Section */
 .add-comment {
   display: flex;
   flex-direction: column;
@@ -108,14 +128,51 @@ h2 {
   background-color: #0056b3;
 }
 
-.comments-list {
-  list-style: none;
-  padding: 0;
+/* Comment Action Buttons */
+.delete-comment-btn,
+.edit-comment-btn,
+.update-comment-btn,
+.cancel-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s;
 }
 
-.comment {
-  background: #f4f4f4;
-  padding: 10px;
+/* ❌ Delete Button */
+.delete-comment-btn {
+  color: red;
+}
+
+.delete-comment-btn:hover {
+  color: darkred;
+}
+
+/* ✏️ Edit Button */
+.edit-comment-btn {
+  color: blue;
+}
+
+.edit-comment-btn:hover {
+  color: darkblue;
+}
+
+/* ✅ Update Button */
+.update-comment-btn {
+  color: green;
+}
+
+/* ❌ Cancel Edit Button */
+.cancel-edit-btn {
+  color: gray;
+}
+
+/* Edit Input Field */
+input[type="text"] {
+  padding: 5px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  margin-bottom: 10px;
+  width: 100%;
+  max-width: 400px;
 }

@@ -7,6 +7,7 @@ import PostListPage from '../PostListPage/PostListPage';
 import NewPostPage from '../NewPostPage/NewPostPage';
 import MovieDetailsPage from '../MovieDetailsPage/MovieDetailsPage'; 
 import NowPlayingPage from '../NowPlayingPage/NowPlayingPage'; 
+import WatchlistPage from "../WatchlistPage/WatchlistPage";
 import SignUpPage from '../SignUpPage/SignUpPage';
 import LogInPage from '../LogInPage/LogInPage';
 import NavBar from '../../components/NavBar/NavBar';
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/posts/new" element={<NewPostPage />} />
             <Route path="/now-playing" element={<NowPlayingPage />} />
             <Route path="/movies/:movieId" element={<MovieDetailsPage />} /> 
+            <Route path="/watchlist" element={<WatchlistPage />} />
           </Routes>
         ) : (
           <Routes>

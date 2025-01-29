@@ -11,18 +11,23 @@ router.get('/fetch-and-save', moviesCtrl.fetchAndSave);
 router.post('/', moviesCtrl.create);
 // POST /api/movies
 router.get('/', moviesCtrl.index);
+
+router.get('/favorites', ensureLoggedIn, moviesCtrl.getFavorites);
 // GET /api/movies
 router.get('/:movieId', moviesCtrl.show)
 // DELETE /api/movies
 router.delete('/:movieId', moviesCtrl.delete1)
 // POST /api/movies
-
 router.get('/:movieId', moviesCtrl.update)
 // POST /api/movies
-
 router.post('/:movieId/favorite', ensureLoggedIn, moviesCtrl.addFavorite);
 // POST /api/movies/:movieId/comments
 router.post('/:movieId/comments', moviesCtrl.createComment);
+
+router.delete('/:movieId/comments/:commentId', ensureLoggedIn, moviesCtrl.deleteComment);
+
+router.put('/:movieId/comments/:commentId', ensureLoggedIn, moviesCtrl.updateComment);
+
 
 
 
