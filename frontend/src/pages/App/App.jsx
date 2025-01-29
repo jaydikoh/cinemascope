@@ -13,7 +13,7 @@ import LogInPage from '../LogInPage/LogInPage';
 import NavBar from '../../components/NavBar/NavBar';
 // import * as movieService from '../../services/movieService';
 
-export default function App() {
+export default function App() { 
   const [user, setUser] = useState(getUser());
 
   return (
