@@ -5,7 +5,6 @@ const commentSchema = new Schema(
   {
     text: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Refers to User model
-    createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
@@ -41,7 +40,12 @@ const movieSchema = new Schema(
     //   required: true,
       ref: 'User'
     },
-    comments: [commentSchema], // Embedded comments schema
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment', 
+      },
+     ], 
     favorites: [
       {
         type: Schema.Types.ObjectId,

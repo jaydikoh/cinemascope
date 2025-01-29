@@ -2,6 +2,8 @@ const Movie = require('../models/movie');
 const fetch = require('node-fetch');
 const API_KEY = process.env.VITE_API_KEY; // Use the React-specific prefix
 const BASE_URL = 'https://api.themoviedb.org/3/movie';
+const Comment = require("../models/comment");
+const { findById } = require('../models/user');
 
 // const express = require('express')
 // const router = express.Router()
@@ -14,7 +16,8 @@ module.exports = {
     update,
     show,
     fetchAndSave,
-    addFavorite
+    addFavorite,
+    createComment
 }
 
 async function fetchAndSave(req, res) {
@@ -27,7 +30,7 @@ async function fetchAndSave(req, res) {
       title: movie.title,
       overview: movie.overview,
       release_date: movie.release_date,
-      genres: movie.genre_ids, // Assuming genre IDs
+      genres: movie.genre_ids, 
       image: `https://image.tmdb.org/t/p/w1280${movie.poster_path}`
     }));
     // Save movies to database
@@ -40,6 +43,11 @@ async function fetchAndSave(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
+
+// async function fetchAndSave2(req, res) {
+//   const response = await fetch(`${BASE_URL}/now_playing?api_key=${API_KEY}`);
+//     const data = await response.json();
+// }
 
 // GET /api/movies (INDEX action)
 async function index(req, res) {
@@ -121,24 +129,18 @@ async function show(req, res) {
   async function addFavorite(req, res) {
     try {
       const { movieId } = req.params;
-      const userId = req.user._id; // Assuming req.user contains the logged-in user's ID (via middleware)
+      const userId = req.user._id; 
   
-      // Fetch movie details from TMDB API if it doesn't exist in the database
-      let movie = await Movie.findOne({ id: (movieId) });
-  
-      // Check if the user is already in the favorites array
+      let movie = await Movie.findOne({ id: movieId });
+      console.log(movieId)
       const isFavorited = movie.favorites.some((id) => id.toString() === userId.toString());
   
       if (isFavorited) {
-        // Remove the user from the favorites array
         movie.favorites = movie.favorites.filter((id) => id.toString() !== userId.toString());
       } else {
-        // Add the user to the favorites array
         movie.favorites.push(userId);
       }
-  
-      // Save the updated movie document
-      await movie.save();
+        await movie.save();
   
       res.status(200).json({
         message: isFavorited ? 'Removed from watchlist' : 'Added to watchlist',
@@ -148,3 +150,23 @@ async function show(req, res) {
       res.status(500).json({ error: error.message });
     }
   }
+
+  // /api/comments (create comment)
+async function createComment(req, res) {
+  console.log(req.params)
+  try {
+    const movie = await Movie.findOne({ id: req.params.movieId });
+    console.log(movie)
+    req.body.author = req.user._id;
+    console.log(req.body)
+    const comment = await Comment.create(req.body);
+    movie.comments.push(comment._id)
+    await movie.save()
+    await movie.populate('comments');
+    res.status(201).json(movie);
+    
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ err: err.message });
+  }
+}
