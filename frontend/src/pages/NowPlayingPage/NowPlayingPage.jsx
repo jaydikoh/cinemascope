@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router'; 
+import { Link, Navigate } from 'react-router'; 
 import '../NowPlayingPage/NowPlayingPage.css';
 import * as movieService from '../../services/movieService'
+ 
 
-export default function NowPlayingPage() {
+export default function NowPlayingPage({}) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {

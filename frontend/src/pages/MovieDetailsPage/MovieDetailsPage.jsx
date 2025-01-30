@@ -137,8 +137,8 @@ export default function MovieDetailsPage({ user }) {
                   <p>
                     <strong>{comment.author?.name}</strong>: {comment.text}
                   </p>
-                  {/* Show delete & edit buttons only for the author */}
-                  {/* {user && comment.author?._id === user._id && ( */}
+
+                    {user && comment.author?._id === user._id && (
                     <>
                       <button
                         className="delete-comment-btn"
@@ -153,7 +153,7 @@ export default function MovieDetailsPage({ user }) {
                         ✏️
                       </button>
                     </>
-                  {/* )} */}
+                   )} 
                 </>
               )}
             </li>

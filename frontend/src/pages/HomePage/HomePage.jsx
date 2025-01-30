@@ -1,8 +1,9 @@
 import * as movieService from '../../services/movieService';
 import '../HomePage/HomePage.css'
+import { NavLink } from 'react-router'; 
 // import '../../components/NavBar/NavBar'
 
-export default function HomePage() {
+export default function HomePage({user}) {
   const fetchData = async () => {
     const data = await movieService.getNowPlaying();
     console.log(data);
@@ -19,7 +20,10 @@ export default function HomePage() {
             our complete listings to see what’s “Now Showing” and never miss an
             opportunity to enjoy a cinematic masterpiece.
           </p>
+
+          <NavLink to={!user ? "/login" : "/now-playing"}>
           <button className="hero-btn">Explore Now Showing</button>
+          </NavLink> 
         </div>
       </header>
 
