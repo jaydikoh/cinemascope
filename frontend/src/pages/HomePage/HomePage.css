@@ -127,3 +127,12 @@ body {
   .contact-section button:hover {
     background: #0056b3;
   }
+
+  .homepage-logo {
+    width: 200px;
+    display: block;
+    margin: 0 auto;
+  }
+
+
+  

@@ -21,10 +21,16 @@
 
 /* Logo */
 .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #007bff;
-  text-decoration: none;
+  display: flex;
+  align-items: center; /* Centers the logo vertically */
+  text-decoration: none; /* Removes underline */
+  gap: 10px; /* Adds spacing if there's text */
+}
+
+.logo-image {
+  height: 40px; /* Adjust height as needed */
+  width: 70px; /* Maintain aspect ratio */
+  display: block;
 }
 
 /* Navigation Links */
@@ -80,4 +86,10 @@
 
 .logout-btn:hover {
   background: #e60000;
+}
+
+.homepage-logo {
+  width: 200px;
+  display: block;
+  margin: 0 auto;
 }

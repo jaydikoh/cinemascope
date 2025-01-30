@@ -15,7 +15,7 @@ export default function NavBar({ user, setUser }) {
     <nav className="NavBar">
       <div className="nav-container">
         <NavLink to="/" className="logo">
-          CinemaScope
+        <img src="/images/cinemascopelogo.png" alt="CinemaScope Logo" className="logo-image"/>
         </NavLink>
 
         {user && (
