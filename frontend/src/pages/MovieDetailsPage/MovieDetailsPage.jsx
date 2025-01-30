@@ -6,7 +6,7 @@ import * as movieService from '../../services/movieService'
 export default function MovieDetailsPage({ user }) {
   const { movieId } = useParams(); // Extract the movieId from the URL
   const [movie, setMovie] = useState(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState();
   const [newComment, setNewComment] = useState(''); // For storing the new comment text
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editText, setEditText] = useState("");
@@ -17,27 +17,35 @@ export default function MovieDetailsPage({ user }) {
       try {
         const movie = await movieService.getMovieDetails(movieId)
         setMovie(movie);
-        setIsFavorite(movie.favorites?.includes(movieId)); // Check if the movie is already in the user's favorites
+        console.log(user)
+        console.log("movie isfavorited", movie.favorites?.includes(user?._id))
+        setIsFavorite(movie.favorites?.includes(user?._id)); // Check if the movie is already in the user's favorites
       } catch (err) {
         console.error('Error fetching movie details:', err.message);
       } 
     }
 
     fetchMovieDetails();
-  }, [movieId]);
+  }, []);
 
   async function handleAddToWatchlist() {
     try {
       const updatedMovie = await movieService.addFavorite(movieId); // Call service to add/remove from watchlist
-      setIsFavorite(!isFavorite); // Update the local state to reflect the change
+      setIsFavorite(!isFavorite); // Check if the movie is already in the user's favorites
+      // setIsFavorite(updatedMovie.movie.favorites?.includes(movieId)); // Check if the movie is already in the user's favorites
     } catch (err) {
       console.error('Error adding to watchlist:', err.message);
     }
   }
 
+  // async function handleWatchlistButton() {
+
+  // }
+
   async function handleAddComment() {
     try {
       const updatedMovie = await movieService.createComment(movieId, { text: newComment });
+      console.log(updatedMovie)
       setMovie(updatedMovie); 
       setNewComment('');
     } catch (err) {
@@ -127,7 +135,7 @@ export default function MovieDetailsPage({ user }) {
               ) : (
                 <>
                   <p>
-                    <strong>{comment.author?.name || "Anonymous"}</strong>: {comment.text}
+                    <strong>{comment.author?.name}</strong>: {comment.text}
                   </p>
                   {/* Show delete & edit buttons only for the author */}
                   {/* {user && comment.author?._id === user._id && ( */}
@@ -158,5 +166,3 @@ export default function MovieDetailsPage({ user }) {
     </div>
   );
 }
-
-

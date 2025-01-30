@@ -177,10 +177,13 @@ async function show(req, res) {
     req.body.author = req.user._id;
     console.log(req.body)
     const comment = await Comment.create(req.body);
-    movie.comments.push(comment._id)
+    movie.comments = [comment._id, ...movie.comments]
+    // movie.comments.push(comment._id)
+    // await comment.populate('author'); // Populate only the name field
     await movie.save()
-    await movie.populate('comments');
-    await comment.populate('author', 'name'); // Populate only the name field
+    await movie.populate({
+      path: 'comments',
+      populate: { path: 'author', select: 'name' }});
     res.status(201).json(movie);
     
   } catch (err) {

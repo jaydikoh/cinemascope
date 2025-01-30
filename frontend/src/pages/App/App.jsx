@@ -26,7 +26,7 @@ export default function App() {
             <Route path="/posts" element={<PostListPage />} />
             <Route path="/posts/new" element={<NewPostPage />} />
             <Route path="/now-playing" element={<NowPlayingPage />} />
-            <Route path="/movies/:movieId" element={<MovieDetailsPage />} /> 
+            <Route path="/movies/:movieId" element={<MovieDetailsPage user={user} />} /> 
             <Route path="/watchlist" element={<WatchlistPage />} />
           </Routes>
         ) : (
