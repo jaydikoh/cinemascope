@@ -74,7 +74,7 @@ export default function HomePage({user}) {
       </section>
 
       
-      <section className="contact-section">
+      {/* <section className="contact-section">
         <h2>Connect With Us</h2>
         <form>
           <input type="text" placeholder="Your Name" />
@@ -82,7 +82,7 @@ export default function HomePage({user}) {
           <textarea placeholder="Your Message"></textarea>
           <button type="submit">Send Your Inquiry</button>
         </form>
-      </section>
+      </section> */}
     </>
   );
 }
