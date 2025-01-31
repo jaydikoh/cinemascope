@@ -7,9 +7,9 @@
 ***CinemaScope*** is a modern, interactive platform designed to bring movie lovers the best cinematic experience. Whether you’re exploring the latest releases, adding movies to your watchlist, or engaging in discussions through comments, CinemaScope offers a sleek and user-friendly interface tailored for movie enthusiasts. With advanced search functionality, a personalized watchlist, and a smooth browsing experience, CinemaScope bridges the gap between users and their favorite films effortlessly.
 
 ## Screenshot
-  ![Screenshot 1](https://i.imgur.com/drOoiLn.png "screenshot")
+  ![Screenshot 1](https://i.imgur.com/0gMbRL1.png "screenshot")
 
-  ![Screenshot 2](https://i.imgur.com/dRI2g1N.png "screenshot")
+  ![Screenshot 2](https://i.imgur.com/qcxdoRK.png "screenshot")
 
 ## 🚀 Technologies Used
 
