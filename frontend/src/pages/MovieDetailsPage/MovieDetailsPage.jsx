@@ -32,15 +32,10 @@ export default function MovieDetailsPage({ user }) {
     try {
       const updatedMovie = await movieService.addFavorite(movieId); // Call service to add/remove from watchlist
       setIsFavorite(!isFavorite); // Check if the movie is already in the user's favorites
-      // setIsFavorite(updatedMovie.movie.favorites?.includes(movieId)); // Check if the movie is already in the user's favorites
     } catch (err) {
       console.error('Error adding to watchlist:', err.message);
     }
   }
-
-  // async function handleWatchlistButton() {
-
-  // }
 
   async function handleAddComment() {
     try {

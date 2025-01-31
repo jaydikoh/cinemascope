@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const commentSchema = new Schema(
   {
     text: { type: String, required: true },
-    author: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // Refers to User model
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true }, 
   },
   { timestamps: true }
 );
@@ -32,12 +32,11 @@ const movieSchema = new Schema(
       type: String
     },
     genres: {
-      type: [String], // Array of genre names
+      type: [String], 
       required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
-    //   required: true,
       ref: 'User'
     },
     comments: [

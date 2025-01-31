@@ -1,7 +1,6 @@
 import * as movieService from '../../services/movieService';
 import '../HomePage/HomePage.css'
 import { NavLink } from 'react-router'; 
-// import '../../components/NavBar/NavBar'
 
 export default function HomePage({user}) {
   const fetchData = async () => {
@@ -30,7 +29,6 @@ export default function HomePage({user}) {
       
       <section className="features-section">
         <div className="feature">
-          <img src="path-to-image" alt="Now Showing" />
           <h3>Now Showing: Latest Releases</h3>
           <p>
             Explore what’s currently in theaters with engaging visuals and
@@ -38,7 +36,6 @@ export default function HomePage({user}) {
           </p>
         </div>
         <div className="feature">
-          <img src="path-to-image" alt="Diverse Films" />
           <h3>Diverse Film Selections</h3>
           <p>
             Browse a curated collection across various genres, ensuring there’s
@@ -46,7 +43,6 @@ export default function HomePage({user}) {
           </p>
         </div>
         <div className="feature">
-          <img src="path-to-image" alt="Plan Your Movie Night" />
           <h3>Plan Your Movie Night</h3>
           <p>
             Get essential details like showtimes and theater locations, making
@@ -72,17 +68,6 @@ export default function HomePage({user}) {
           <cite>- David Lee</cite>
         </div>
       </section>
-
-      
-      {/* <section className="contact-section">
-        <h2>Connect With Us</h2>
-        <form>
-          <input type="text" placeholder="Your Name" />
-          <input type="email" placeholder="Your Email" />
-          <textarea placeholder="Your Message"></textarea>
-          <button type="submit">Send Your Inquiry</button>
-        </form>
-      </section> */}
     </>
   );
 }

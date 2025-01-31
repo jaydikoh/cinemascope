@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router"; // Correct import
+import { Link } from "react-router"; 
 import * as movieService from "../../services/movieService";
 import "./WatchlistPage.css";
 

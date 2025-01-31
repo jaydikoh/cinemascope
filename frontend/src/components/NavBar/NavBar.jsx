@@ -21,16 +21,10 @@ export default function NavBar({ user, setUser }) {
         {user && (
         <ul className="nav-links">
           <li>
-          <NavLink to="/now-playing">Now Playing</NavLink> {/* New Link */}
+          <NavLink to="/now-playing">Now Playing</NavLink> 
           </li>
           <li>
           <NavLink to="/watchlist">Watchlist</NavLink>
-          </li>
-          <li>
-            <NavLink to="/showtimes">Showtimes</NavLink>
-          </li>
-          <li>
-            <NavLink to="/theaters">Theaters</NavLink>
           </li>
         </ul>
         )}

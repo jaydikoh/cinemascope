@@ -27,8 +27,6 @@ app.use(require('./middleware/ensureLoggedIn'));
 
 app.use('/api/movies', require('./routes/movies'))
 
-app.use('/api/posts', require('./routes/posts'));
-
 // Use a "catch-all" route to deliver the frontend's production index.html
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));

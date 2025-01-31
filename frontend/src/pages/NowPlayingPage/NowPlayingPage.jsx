@@ -14,9 +14,7 @@ export default function NowPlayingPage({}) {
 
       try {
         const movies = await movieService.getNowPlaying();
-        // if (!movies.ok) throw new Error('Failed to fetch movies');
-        // const filteredMovies = movies.filter((movie) => new Date(movie.release_date) <= currentTime
-                setMovies(movies.filter((movie) => movie.release_date <= timeISO));
+        setMovies(movies.filter((movie) => movie.release_date <= timeISO));
       } catch (err) {
         console.error('Error fetching movies:', err.message);
       }

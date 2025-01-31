@@ -1,12 +1,9 @@
 const Movie = require('../models/movie');
 const fetch = require('node-fetch');
-const API_KEY = process.env.VITE_API_KEY; // Use the React-specific prefix
+const API_KEY = process.env.API_KEY; 
 const BASE_URL = 'https://api.themoviedb.org/3/movie';
 const Comment = require("../models/comment");
-const { findById } = require('../models/user');
-
-// const express = require('express')
-// const router = express.Router()
+// const { findById } = require('../models/user');
 
 // All paths start with /api/movies
 module.exports = {
@@ -47,11 +44,6 @@ async function fetchAndSave(req, res) {
   }
 }
 
-// async function fetchAndSave2(req, res) {
-//   const response = await fetch(`${BASE_URL}/now_playing?api_key=${API_KEY}`);
-//     const data = await response.json();
-// }
-
 // GET /api/movies (INDEX action)
 async function index(req, res) {
     try {
@@ -76,7 +68,6 @@ async function index(req, res) {
 async function show(req, res) {
     try {
       const {movieId} = req.params;
-
       const foundMovie = await Movie.findOne({ id: movieId}).populate({
         path: 'comments',
         populate: { path: 'author', select: 'name' }, // Populate author's name
@@ -148,7 +139,6 @@ async function show(req, res) {
       const userId = req.user._id; 
       
       let movie = await Movie.findOne({ id: movieId });
-      console.log(movieId)
       const isFavorited = movie.favorites.some((id) => id.toString() === userId.toString());
       
       if (isFavorited) {
@@ -167,19 +157,13 @@ async function show(req, res) {
     }
   }
   
-
   // /api/comments (create comment)
   async function createComment(req, res) {
-    console.log(req.params)
   try {
     const movie = await Movie.findOne({ id: req.params.movieId });
-    console.log(movie)
     req.body.author = req.user._id;
-    console.log(req.body)
     const comment = await Comment.create(req.body);
     movie.comments = [comment._id, ...movie.comments]
-    // movie.comments.push(comment._id)
-    // await comment.populate('author'); // Populate only the name field
     await movie.save()
     await movie.populate({
       path: 'comments',
